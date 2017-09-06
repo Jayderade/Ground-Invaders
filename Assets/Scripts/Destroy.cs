@@ -19,7 +19,7 @@ public class Destroy : MonoBehaviour
     // if collides with something destroy bullet
     void OnTriggerEnter2D(Collider2D other)
     {
-        if (other.gameObject.CompareTag("Wall") || other.gameObject.CompareTag("Enemy"))
+        if (other.gameObject.CompareTag("Wall") || other.gameObject.CompareTag("Enemy") || other.gameObject.CompareTag("Bullet"))
         {
             Destroy(gameObject);
         }

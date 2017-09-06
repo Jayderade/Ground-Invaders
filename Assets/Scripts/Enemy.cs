@@ -4,11 +4,14 @@ using UnityEngine;
 
 public class Enemy : MonoBehaviour
 {
+    public float movementSpeed = .1f;
 
     public GameObject explode;
     public GameObject die;
     public GameObject enemy;
-   
+    public Collider2D enemyCol;
+
+    private bool moving;   
 
     private int random;
 
@@ -16,7 +19,10 @@ public class Enemy : MonoBehaviour
     // Use this for initialization
     void Start()
     {
-       
+        enemyCol.enabled = true;
+
+        moving = true;
+
         // Pick random number to activate Gameobject
         random = Random.Range(1, 3);
     }
@@ -26,7 +32,7 @@ public class Enemy : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-
+        Movement();
     }
 
    
@@ -36,9 +42,10 @@ public class Enemy : MonoBehaviour
     {
         if (other.gameObject.CompareTag("Bullet"))
         {
-
+            enemyCol.enabled = false;
             enemy.SetActive(false);
-
+            moving = false;
+            
             if (random ==  1)
             {
                 explode.SetActive(true);
@@ -49,5 +56,13 @@ public class Enemy : MonoBehaviour
             }
         }
     }
-
+    void Movement()
+    {
+        
+        if (moving == true)
+        {
+            // Direction X Speed X DeltaTime
+            transform.position += -transform.up * movementSpeed * Time.deltaTime;
+        }
+    }
 }
