@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class Player : MonoBehaviour
 {
@@ -16,6 +17,7 @@ public class Player : MonoBehaviour
     public GameObject halfHealth;    
     public GameObject littleHealth;
     public GameObject lotsHealth;
+    public GameObject gameOver;
 
     private SpriteRenderer sprite;
 
@@ -24,6 +26,9 @@ public class Player : MonoBehaviour
     // Use this for initialization
     void Start()
     {
+
+        gameOver.SetActive(false);
+
         hit = 0;
         moving = true;
 
@@ -85,10 +90,12 @@ public class Player : MonoBehaviour
             if (random == 1)
             {
                 explode.SetActive(true);
+                gameOver.SetActive(true);
             }
             if (random == 2)
             {
                 die.SetActive(true);
+                gameOver.SetActive(true);
             }
             
         }
