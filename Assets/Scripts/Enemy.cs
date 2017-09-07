@@ -1,17 +1,28 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class Enemy : MonoBehaviour
 {
     public float movementSpeed = .1f;
+    public float alive = 0f;
+    public float waitTime = 3f;
 
+    public Image bGround;
+
+    public GameObject youWin;
+    public GameObject gameOver;
     public GameObject explode;
     public GameObject die;
     public GameObject enemy;
     public Collider2D enemyCol;
+    
 
-    private bool moving;   
+    private bool timerActive;
+    private bool moving;
+
+    private float timer;
 
     private int random;
 
@@ -19,6 +30,13 @@ public class Enemy : MonoBehaviour
     // Use this for initialization
     void Start()
     {
+        timerActive = false;
+        gameOver.SetActive(false);
+        youWin.SetActive(false);
+        bGround.enabled = false;
+
+        alive = 26;
+
         enemyCol.enabled = true;
 
         moving = true;
@@ -33,6 +51,18 @@ public class Enemy : MonoBehaviour
     void Update()
     {
         Movement();
+
+        if (timerActive)
+        {
+            timer += 3 * Time.deltaTime;
+        }
+
+        if (timer > waitTime)
+        {
+            gameOver.SetActive(false);
+            youWin.SetActive(true);
+        }
+
     }
 
    
@@ -45,6 +75,7 @@ public class Enemy : MonoBehaviour
             enemyCol.enabled = false;
             enemy.SetActive(false);
             moving = false;
+            alive -= 1;
             
             if (random ==  1)
             {
@@ -65,4 +96,14 @@ public class Enemy : MonoBehaviour
             transform.position += -transform.up * movementSpeed * Time.deltaTime;
         }
     }
+
+    void YouWin()
+    {
+        if(alive == 0)
+        {
+            timerActive = true;
+            gameOver.SetActive(true);
+        }
+    }
+
 }

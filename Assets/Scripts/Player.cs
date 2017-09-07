@@ -2,14 +2,18 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.SceneManagement;
 
 public class Player : MonoBehaviour
 {
     public int hit = 0;
 
     public float movementSpeed = 2f;
+    public float waitTime = 3f;
 
     public bool moving;
+
+    public Image bGround;
         
     public GameObject explode;
     public GameObject die;      
@@ -18,16 +22,23 @@ public class Player : MonoBehaviour
     public GameObject littleHealth;
     public GameObject lotsHealth;
     public GameObject gameOver;
+    public GameObject youLose;
+
+    private bool timerActive;
 
     private SpriteRenderer sprite;
+
+    private float timer;
 
     private int random;
     
     // Use this for initialization
     void Start()
     {
-
+        timerActive = false;
         gameOver.SetActive(false);
+        youLose.SetActive(false);
+        bGround.enabled = false;
 
         hit = 0;
         moving = true;
@@ -47,8 +58,19 @@ public class Player : MonoBehaviour
     void Update()
     {
         IfHit();
-        Movement();    
-       
+        Movement();
+
+        if (timerActive)
+        {
+            timer += 3 * Time.deltaTime;
+        }
+
+        if (timer > waitTime)
+        {
+            gameOver.SetActive(false);
+            youLose.SetActive(true);
+        }
+
     }
 
     // If hit by enemy bullet
@@ -91,18 +113,33 @@ public class Player : MonoBehaviour
             {
                 explode.SetActive(true);
                 gameOver.SetActive(true);
+                timerActive = true;
+                bGround.enabled = true;
             }
             if (random == 2)
             {
                 die.SetActive(true);
                 gameOver.SetActive(true);
+                timerActive = true;
+                bGround.enabled = true;
             }
             
         }
+        
+
     }       
     void Movement()
     {
-        
+        if(Input.GetKeyDown(KeyCode.R))
+        {
+            SceneManager.LoadScene(0);
+        }
+
+        if (Input.GetKeyDown(KeyCode.Escape))
+        {
+            Application.Quit();
+        }
+
         if (moving)
         {
             // Get Horizontal input
