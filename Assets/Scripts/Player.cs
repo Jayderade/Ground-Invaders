@@ -108,20 +108,17 @@ public class Player : MonoBehaviour
             littleHealth.SetActive(false);            
             sprite.enabled = false;
             moving = false;
+            gameOver.SetActive(true);
+            timerActive = true;
+            bGround.enabled = true;
 
             if (random == 1)
             {
-                explode.SetActive(true);
-                gameOver.SetActive(true);
-                timerActive = true;
-                bGround.enabled = true;
+                explode.SetActive(true);                
             }
             if (random == 2)
             {
-                die.SetActive(true);
-                gameOver.SetActive(true);
-                timerActive = true;
-                bGround.enabled = true;
+                die.SetActive(true);                
             }
             
         }

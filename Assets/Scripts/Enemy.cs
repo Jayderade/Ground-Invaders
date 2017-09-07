@@ -4,40 +4,27 @@ using UnityEngine;
 using UnityEngine.UI;
 
 public class Enemy : MonoBehaviour
-{
-    public float movementSpeed = .1f;
-    public float alive = 0f;
-    public float waitTime = 3f;
-
-    public Image bGround;
-
-    public GameObject youWin;
-    public GameObject gameOver;
+{    
+    public float movementSpeed = .1f;    
+    
+           
     public GameObject explode;
     public GameObject die;
     public GameObject enemy;
-    public Collider2D enemyCol;
-    
-
-    private bool timerActive;
+    public Collider2D enemyCol;   
+        
     private bool moving;
 
-    private float timer;
-
+    private int dead;    
     private int random;
 
    
     // Use this for initialization
     void Start()
     {
-        timerActive = false;
-        gameOver.SetActive(false);
-        youWin.SetActive(false);
-        bGround.enabled = false;
-
-        alive = 26;
-
         enemyCol.enabled = true;
+
+        
 
         moving = true;
 
@@ -50,19 +37,7 @@ public class Enemy : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        Movement();
-
-        if (timerActive)
-        {
-            timer += 3 * Time.deltaTime;
-        }
-
-        if (timer > waitTime)
-        {
-            gameOver.SetActive(false);
-            youWin.SetActive(true);
-        }
-
+        Movement();        
     }
 
    
@@ -72,11 +47,13 @@ public class Enemy : MonoBehaviour
     {
         if (other.gameObject.CompareTag("Bullet"))
         {
+            dead += 1;
+
             enemyCol.enabled = false;
             enemy.SetActive(false);
-            moving = false;
-            alive -= 1;
-            
+            moving = false;                      
+
+
             if (random ==  1)
             {
                 explode.SetActive(true);
@@ -97,13 +74,6 @@ public class Enemy : MonoBehaviour
         }
     }
 
-    void YouWin()
-    {
-        if(alive == 0)
-        {
-            timerActive = true;
-            gameOver.SetActive(true);
-        }
-    }
+    
 
 }
