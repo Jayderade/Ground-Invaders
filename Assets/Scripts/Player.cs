@@ -10,6 +10,7 @@ public class Player : MonoBehaviour
 
     public float movementSpeed = 2f;
     public float waitTime = 3f;
+    public float extraWaitTime = 10f;
 
     public bool moving;
 
@@ -23,25 +24,31 @@ public class Player : MonoBehaviour
     public GameObject lotsHealth;
     public GameObject gameOver;
     public GameObject youLose;
+    public GameObject gun;
+   
 
     private bool timerActive;
+    
 
     private SpriteRenderer sprite;
 
     private float timer;
+    private float timerWin;
 
     private int random;
     
     // Use this for initialization
     void Start()
     {
-        timerActive = false;
+        timerActive = false;        
         gameOver.SetActive(false);
-        youLose.SetActive(false);
+        youLose.SetActive(false);       
         bGround.enabled = false;
 
         hit = 0;
         moving = true;
+
+        
 
         sprite = GetComponent<SpriteRenderer>();
                         
@@ -60,12 +67,20 @@ public class Player : MonoBehaviour
         IfHit();
         Movement();
 
+        
+
         if (timerActive)
         {
-            timer += 3 * Time.deltaTime;
-        }
+            timer += 1 * Time.deltaTime;
+        }       
 
         if (timer > waitTime)
+        {
+            gameOver.SetActive(true);
+            bGround.enabled = true;
+        }
+
+        if (timer > extraWaitTime)
         {
             gameOver.SetActive(false);
             youLose.SetActive(true);
@@ -107,10 +122,9 @@ public class Player : MonoBehaviour
         {
             littleHealth.SetActive(false);            
             sprite.enabled = false;
-            moving = false;
-            gameOver.SetActive(true);
+            moving = false;           
             timerActive = true;
-            bGround.enabled = true;
+            gun.SetActive(false);        
 
             if (random == 1)
             {

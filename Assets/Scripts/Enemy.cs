@@ -5,27 +5,37 @@ using UnityEngine.UI;
 
 public class Enemy : MonoBehaviour
 {    
-    public float movementSpeed = .1f;    
-    
-           
+    public float movementSpeed = .1f;
+
+
+
+    public GameObject youWin;
+    public GameObject gameOver;
     public GameObject explode;
     public GameObject die;
     public GameObject enemy;
-    public Collider2D enemyCol;   
-        
-    private bool moving;
+   
 
+    private int alive;
+
+    public Collider2D enemyCol;  
+            
+    private bool moving;    
+    private bool timerActiveWin;
+    
     private int dead;    
     private int random;
 
-   
+    private float timerWin;
+
+
     // Use this for initialization
     void Start()
     {
-        enemyCol.enabled = true;
-
-        
-
+        youWin.SetActive(false);
+        gameOver.SetActive(false);
+        enemyCol.enabled = true;     
+              
         moving = true;
 
         // Pick random number to activate Gameobject
@@ -37,7 +47,8 @@ public class Enemy : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        Movement();        
+        Movement();
+        
     }
 
    
